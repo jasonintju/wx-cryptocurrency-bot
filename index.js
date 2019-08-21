@@ -135,11 +135,11 @@ async function onMessage (msg) {
       })
     }
   } else {
-    if (lowerCaseName === 'ft' || lowerCaseName === 'fi' || lowerCaseName === 'fj') {
+    if (lowerCaseName === 'ft' || lowerCaseName === 'fi' || lowerCaseName === 'fmex' || lowerCaseName === 'fj') {
       let jp = '';
       if (lowerCaseName === 'fj') {
         jp = 'jp';
-      }
+      } 
       axios.get(`https://api.fcoin${jp}.com/v2/market/ticker/${lowerCaseName}usdt`).then(res => {
         const data = res.data;
         if (data.status === 0) {
