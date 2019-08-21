@@ -6,21 +6,22 @@ const { Wechaty } = require('wechaty')
 const axios = require('axios');
 const dateFormat = require('dateformat');
 
-let USDCNY;
+const ACCESS_KEY = 'xxx';
+let USDCNY = 7;
 const updateUSDCNY = async () => {
-  await axios.get('http://apilayer.net/api/live?access_key=6cf64a437161706b334e98c84efa7631&currencies=CNY&source=USD&format=1')
+  // access_key 需要申请 https://currencylayer.com/，如果不使用实时汇率，可以设置默认值 USDCNY = 7
+  await axios.get(`http://apilayer.net/api/live?access_key=${ACCESS_KEY}&currencies=CNY&source=USD&format=1`)
     .then(res => {
       const data = res.data;
       if (data.success) {
         USDCNY = data.quotes.USDCNY;
       }
-    });
+    }).catch(err => console.log(err.error));
 }
 updateUSDCNY();
-setTimeout(() => {
+setInterval(() => {
   updateUSDCNY();
 }, 8 * 60 * 60 * 1000);
-
 
 const getResponseText = ({name, open, close, ts, currency = 'usdt', exchange = '火币'}) => {
   let price = `$${close}`;
